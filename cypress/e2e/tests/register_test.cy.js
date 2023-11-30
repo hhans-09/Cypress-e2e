@@ -18,6 +18,8 @@ describe('User Registration',() =>{
         pageOb.selectCheckBox();
         pageOb.clickonContinue();
 
+        // validate if there are any broken links 
+        cy.brokenLinks();
 
 
     })

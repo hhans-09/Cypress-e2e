@@ -29,4 +29,32 @@ Cypress.Commands.add('login',(username, password) =>{
     cy.get('#input-email').type(username);
     cy.get('#input-password').type(password);
     cy.get('input[type="submit"]').click()
-})
+});
+
+Cypress.Commands.add('brokenLinks',() =>{
+    //cy.visit(url);
+    let brokenLinks = 0;
+    let activeLinks = 0;
+
+    cy.get('a').each(($links,index)=>{
+        const href = $links.attr('href');
+        if(href){
+            cy.request({url:href, failOnStatusCode:false}).then((response) =>{
+                if(response.status >= 400){
+                    cy.log(`Link ${index + 1} is Broken link ${href}`)
+                    brokenLinks++
+                } else {
+                    cy.log(`link ${index + 1 } is Active link`)
+                    activeLinks++
+                }
+            })
+        }
+
+    }).then(($links) => {
+        const totalLinks = $links.length
+        cy.log(`Total links on page are ${totalLinks}`)
+        cy.log(`Total Active links on page are ${activeLinks}`)
+        cy.log(`Total Broken links on page are ${brokenLinks}`)
+    })
+
+});

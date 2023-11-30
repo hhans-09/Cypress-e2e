@@ -13,5 +13,8 @@ describe('Add To Cart Flow',() =>{
         homePageOb.searchProductName(testData.product.productName);
         homePageOb.addToCart();
         homePageOb.verifySuccessMessage().should('contain',testData.message.successMessage);
+
+        // validate if there are any broken links 
+        cy.brokenLinks();
     })
 })
